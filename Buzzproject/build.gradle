@@ -1,0 +1,29 @@
+﻿plugins {
+  id "java"
+  id "application"
+}
+
+repositories {
+  maven { url "https://jogamp.org/deployment/maven" }
+  mavenCentral()
+}
+
+sourceSets {
+  main {
+    java { srcDirs = ["src", "gmaths"] }
+    resources { srcDirs = ["assets"] }
+  }
+}
+
+dependencies {
+  implementation "org.jogamp.gluegen:gluegen-rt-main:2.6.0"
+  implementation "org.jogamp.jogl:jogl-all-main:2.6.0"
+}
+
+application {
+  mainClass = "Buzz"   // change if your main class has a package, e.g., "app.Buzz"
+}
+
+tasks.run {
+  workingDir = projectDir
+}

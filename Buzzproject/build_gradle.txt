@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    // JogAmp Maven
+    maven { url "https://jogamp.org/deployment/maven" }
+    // Fallback for anything else
+    mavenCentral()
+}
+
+// keep your current layout (sources in src/ and gmaths/, assets in assets/)
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src', 'gmaths']
+        }
+        resources {
+            srcDirs = ['assets']
+        }
+    }
+}
+
+dependencies {
+    // Pulls jogl-all.jar + gluegen-rt.jar and the needed natives transitively
+    implementation 'org.jogamp.gluegen:gluegen-rt-main:2.6.0'
+    implementation 'org.jogamp.jogl:jogl-all-main:2.6.0'
+}
+
+application {
+    // your main class is Buzz (as per assignment)
+    mainClass = 'Buzz'
+}
+
+// run from project root so relative paths like assets/shaders/... work
+tasks.run {
+    workingDir = projectDir
+}
+tasks.register("copyRuntimeLibs", Copy) {
+  from configurations.runtimeClasspath
+  into "$projectDir/lib"
+}
